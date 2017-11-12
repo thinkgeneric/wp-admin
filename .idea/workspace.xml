@@ -21,11 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AdminPage.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/AdminPage.php">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3276">
-              <caret line="117" column="5" selection-start-line="117" selection-start-column="5" selection-end-line="117" selection-end-column="5" />
+            <state relative-caret-position="0">
+              <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -40,6 +40,8 @@
         <option value="$PROJECT_DIR$/scr/Views/section.php" />
         <option value="$PROJECT_DIR$/scr/Views/option_field.php" />
         <option value="$PROJECT_DIR$/scr/AdminPage.php" />
+        <option value="$PROJECT_DIR$/composer.json" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -197,12 +199,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1510516818335</updated>
-      <workItem from="1510516819565" duration="1870000" />
+      <workItem from="1510516819565" duration="1972000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1870000" />
+    <option name="totallyTimeSpent" value="1972000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -274,8 +276,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AdminPage.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3276">
-          <caret line="117" column="5" selection-start-line="117" selection-start-column="5" selection-end-line="117" selection-end-column="5" />
+        <state relative-caret-position="196">
+          <caret line="7" column="40" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
+          <folding>
+            <marker date="1510518618000" expanded="true" signature="63:2249" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="69:126" ph=" Path to the admin page templates. ..." />
+            <marker date="1510518618000" expanded="true" signature="159:226" ph=" AdminPage constructor. ..." />
+            <marker date="1510518618000" expanded="true" signature="275:330" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="337:414" ph=" Get the capability required to view the admin page ..." />
+            <marker date="1510518618000" expanded="true" signature="452:482" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="489:575" ph=" Get the title of the admin page in the WordPress admin menu ..." />
+            <marker date="1510518618000" expanded="true" signature="613:636" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="643:701" ph=" Get the title of the admin page ..." />
+            <marker date="1510518618000" expanded="true" signature="739:773" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="780:844" ph=" Get the parent slug of the admin page ..." />
+            <marker date="1510518618000" expanded="true" signature="883:917" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="924:986" ph=" Get the slug used by the admin page ..." />
+            <marker date="1510518618000" expanded="true" signature="1018:1052" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="1059:1171" ph=" Configure the admin page using the Settings API ..." />
+            <marker date="1510518618000" expanded="true" signature="1204:1602" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="1287:1412" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="1437:1598" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="1609:1640" ph=" Render the option field ..." />
+            <marker date="1510518618000" expanded="true" signature="1683:1727" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="1734:1763" ph=" Render the admin page ..." />
+            <marker date="1510518618000" expanded="true" signature="1798:1834" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="1841:1889" ph=" Render the top section of the admin page ..." />
+            <marker date="1510518618000" expanded="true" signature="1927:1966" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="1973:2054" ph=" Renders the given template if it is readable. ..." />
+            <marker date="1510518618000" expanded="true" signature="2103:2247" ph="..." />
+            <marker date="1510518618000" expanded="true" signature="2203:2217" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+          <folding>
+            <marker date="1510518856000" expanded="true" signature="0:345" ph="{&quot;name&quot;: &quot;gearhead/wp-admin&quot;...}" />
+            <marker date="1510518856000" expanded="true" signature="133:218" ph="[...]" />
+            <marker date="1510518856000" expanded="true" signature="139:214" ph="{&quot;name&quot;: &quot;Eric Eliseo&quot;...}" />
+            <marker date="1510518856000" expanded="true" signature="281:343" ph="{...}" />
+            <marker date="1510518856000" expanded="true" signature="296:339" ph="{&quot;Gearhead\WPAdmin\&quot;: &quot;src/&quot;...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
           <folding />
         </state>
       </provider>
