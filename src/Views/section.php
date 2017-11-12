@@ -1,0 +1,1 @@
+<p><?php _e('A small description about this section of the admin page', 'gearhead'); ?></p>

@@ -1,0 +1,13 @@
+{
+    "name": "gearhead/wp-admin",
+    "description": "Package for building Admin menus in WordPress",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Eric Eliseo",
+            "email": "eric@thinkgeneric.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

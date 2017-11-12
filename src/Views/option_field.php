@@ -1,0 +1,1 @@
+<input type="text" name="gearhead-option" value="<?php get_option('gearhead-option', ''); ?>" />
