@@ -1,8 +1,6 @@
 <?php
 
-namespace Gearhead\WPAdmin\AdminPage;
-
-use Gearhead\WPAdmin\PageSettingsTrait;
+namespace Gearhead\WPAdmin;
 
 abstract class AdminPage {
 
