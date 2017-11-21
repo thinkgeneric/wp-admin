@@ -6,6 +6,7 @@
 			<p><strong><?php _e('Settings saved.') ?></strong></p>
 			<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
 		</div>
+		<?php do_action( 'gearhead_setting_messages' ); // todo we will need to build the settings messanger as a package?>
 	<?php endif; ?>
 	<form action="options.php" method="POST">
 		<?php settings_field($this->get_slug()); ?>
