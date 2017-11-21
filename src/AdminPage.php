@@ -17,7 +17,11 @@ abstract class AdminPage {
 	 *
 	 * @param string $template_path
 	 */
-	public function __construct($template_path) {
+	public function __construct($template_path = null) {
+		if (!$template_path) {
+			$package_path = dirname(__FILE__);
+			$template_path = "{$package_path}/Views";
+		}
 		$this->template_path = rtrim($template_path, '/');
 	}
 
@@ -27,7 +31,7 @@ abstract class AdminPage {
 	 */
 	public function configure() {
 		register_setting($this->get_slug(), 'gearhead_option');
-
+		// add_setting_section($id, $title, $callback, $page)
 		add_settings_section(
 			$this->get_slug() . '-section',
 			__('Section Title', 'gearhead'),

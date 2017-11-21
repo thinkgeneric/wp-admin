@@ -9,7 +9,7 @@
 		<?php do_action( 'gearhead_setting_messages' ); // todo we will need to build the settings messanger as a package?>
 	<?php endif; ?>
 	<form action="options.php" method="POST">
-		<?php settings_field($this->get_slug()); ?>
+		<?php settings_fields($this->get_slug()); ?>
 		<?php do_settings_sections($this->get_slug()); ?>
 		<?php submit_button(__('Save')); ?>
 	</form>
