@@ -2,13 +2,17 @@
 
 namespace Gearhead\WPAdmin\AdminPage;
 
-class AdminPage {
+use Gearhead\WPAdmin\PageSettingsTrait;
+
+abstract class AdminPage {
 
 	/**
-	 * Path to the admin page templates.
-	 * @var string
+	 * Fields to be rendered on the page
+	 * @var array
 	 */
-	private $template_path;
+	protected $fields = [];
+
+	use PageSettingsTrait;
 
 	/**
 	 * AdminPage constructor.
@@ -17,46 +21,6 @@ class AdminPage {
 	 */
 	public function __construct($template_path) {
 		$this->template_path = rtrim($template_path, '/');
-	}
-
-	/**
-	 * Get the capability required to view the admin page
-	 * @return string
-	 */
-	public function get_capability() {
-		return "install_plugins";
-	}
-
-	/**
-	 * Get the title of the admin page in the WordPress admin menu
-	 * @return string
-	 */
-	public function get_menu_title() {
-		return "Gearhead";
-	}
-
-	/**
-	 * Get the title of the admin page
-	 * @return string
-	 */
-	public function get_page_title() {
-		return "Gearhead Admin Page";
-	}
-
-	/**
-	 * Get the parent slug of the admin page
-	 * @return string
-	 */
-	public function get_parent_slug() {
-		return "options-general.php";
-	}
-
-	/**
-	 * Get the slug used by the admin page
-	 * @return string
-	 */
-	public function get_slug() {
-		return "gearhead-admin-menu";
 	}
 
 	/**
@@ -73,13 +37,51 @@ class AdminPage {
 			$this->get_slug()
 		);
 
-		add_settings_field(
-			$this->get_slug() . '-option',
-			__('The Option', 'gearhead'),
-			[$this, 'render_option_field'],
-			$this->get_slug(),
-			$this->get_slug() . '-section'
-		);
+		// todo does this need to be a foreach loop?
+		foreach ($this->fields as $field) {
+			$type = $field['type'];
+			$callback = "render_option_field";
+			// if we have a callback for the method, use that
+			if (method_exists($this, "render_option_field_{$type}")) {
+				$callback = "render_option_field_{$type}";
+			}
+
+			add_settings_field(
+				"{$this->get_slug()}-{$field['slug']}",
+				__($field['name'], 'gearhead'), // todo we should add the namespace as a property to this class that can be extended
+				[$this, $callback],
+				$this->get_slug(),
+				"{$this->get_slug()}-{$field['section']}"
+			);
+		}
+	}
+
+	/**
+	 * Add a new field to the page stack
+	 *
+	 * @param string $name The name of the field
+	 * @param null|string $key The key used to find the field
+	 * @param string $section The key of the section the field should be added to
+	 * @param string $type The type of field being used
+	 */
+	protected function add_field($name, $slug = null, $section = 'section', $type = 'text') {
+		// If no name is set, bail
+		if (empty($name)) {
+			return;
+		}
+
+		// If no key is set, format the name to be the key.
+		if (!$slug) {
+			$slug = str_replace('', '-', strtolower($name));
+		}
+
+		// Add the field to the stack
+		$this->fields[] = [
+			'name' => $name,
+			'slug' => $slug,
+			'section' => $section,
+			'type' => $type,
+		];
 	}
 
 	/**
