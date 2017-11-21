@@ -31,6 +31,8 @@ abstract class AdminPage {
 	 */
 	public function configure() {
 		register_setting($this->get_slug(), 'gearhead_option');
+		add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
+
 		// add_setting_section($id, $title, $callback, $page)
 		add_settings_section(
 			$this->get_slug() . '-section',
@@ -130,5 +132,15 @@ abstract class AdminPage {
 			$this->get_slug(),
 			[$this, 'render_page']
 		);
+	}
+
+	public function enqueue_scripts($hook) {
+		// Load only on ?page=slug
+		if($hook != "settings_page_{$this->get_slug()}") {
+			return;
+		}
+		$path = dirname(dirname(__FILE__));
+		$file = $path . '/Assets/gearhead.css';
+		wp_enqueue_style( $this->get_slug() . '-css', $file );
 	}
 }
