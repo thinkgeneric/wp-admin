@@ -10,19 +10,24 @@ abstract class AdminPage {
 	 */
 	protected $fields = [];
 
+	protected $page_settings;
+
 	use PageSettingsTrait;
 
 	/**
 	 * AdminPage constructor.
 	 *
+	 * @param PageSettingsInterface $page_settings
 	 * @param string $template_path
 	 */
-	public function __construct($template_path = null) {
-		if (!$template_path) {
-			$package_path = dirname(__FILE__);
+	public function __construct(PageSettingsInterface $page_settings, $template_path = null) {
+		if ( ! $template_path) {
+			$package_path  = dirname(__FILE__);
 			$template_path = "{$package_path}/Views";
 		}
 		$this->template_path = rtrim($template_path, '/');
+
+		$this->page_settings = $page_settings;
 	}
 
 	/**
@@ -30,32 +35,32 @@ abstract class AdminPage {
 	 * register_setting($option_group, $option_name, $args)
 	 */
 	public function configure() {
-		register_setting($this->get_slug(), 'gearhead_option');
+		$this->page_settings->register_setting($this->get_slug(), 'gearhead-option');
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
 
-		// add_setting_section($id, $title, $callback, $page)
-		add_settings_section(
+		$this->page_settings->add_settings_section(
 			$this->get_slug() . '-section',
-			__('Section Title', 'gearhead'),
+			'Section Title',
 			[$this, 'render_section'],
 			$this->get_slug()
 		);
 
 		// todo does this need to be a foreach loop?
 		foreach ($this->fields as $field) {
-			$type = $field['type'];
+			$type     = $field['type'];
 			$callback = "render_option_field";
 			// if we have a callback for the method, use that
 			if (method_exists($this, "render_option_field_{$type}")) {
 				$callback = "render_option_field_{$type}";
 			}
 
-			add_settings_field(
+			$this->page_settings->add_settings_field(
 				"{$this->get_slug()}-{$field['slug']}",
-				__($field['name'], 'gearhead'), // todo we should add the namespace as a property to this class that can be extended
+				$field['name'],
 				[$this, $callback],
 				$this->get_slug(),
-				"{$this->get_slug()}-{$field['section']}"
+				"{$this->get_slug()}-{$field['section']}",
+				["option" => 'gearhead-option']
 			);
 		}
 	}
@@ -64,35 +69,37 @@ abstract class AdminPage {
 	 * Add a new field to the page stack
 	 *
 	 * @param string $name The name of the field
-	 * @param null|string $key The key used to find the field
+	 * @param null|string $slug
 	 * @param string $section The key of the section the field should be added to
 	 * @param string $type The type of field being used
+	 *
+	 * @internal param null|string $key The key used to find the field
 	 */
-	protected function add_field($name, $slug = null, $section = 'section', $type = 'text') {
+	public function add_field($name, $slug = null, $section = 'section', $type = 'text') {
 		// If no name is set, bail
 		if (empty($name)) {
 			return;
 		}
 
 		// If no key is set, format the name to be the key.
-		if (!$slug) {
+		if ( ! $slug) {
 			$slug = str_replace('', '-', strtolower($name));
 		}
 
 		// Add the field to the stack
 		$this->fields[] = [
-			'name' => $name,
-			'slug' => $slug,
+			'name'    => $name,
+			'slug'    => $slug,
 			'section' => $section,
-			'type' => $type,
+			'type'    => $type,
 		];
 	}
 
 	/**
 	 * Render the option field
 	 */
-	public function render_option_field() {
-		$this->render_template('option-field');
+	public function render_option_field($args) {
+		$this->render_template('option-field', $args);
 	}
 
 	/**
@@ -111,12 +118,13 @@ abstract class AdminPage {
 
 	/**
 	 * Renders the given template if it is readable.
+	 *
 	 * @param string $template
 	 */
-	private function render_template($template) {
+	private function render_template($template, $args = []) {
 		$template_path = "{$this->template_path}/{$template}.php";
 
-		if (!is_readable($template_path)) {
+		if ( ! is_readable($template_path)) {
 			return;
 		}
 
@@ -124,7 +132,7 @@ abstract class AdminPage {
 	}
 
 	public function register() {
-		add_submenu_page(
+		$this->page_settings->add_submenu_page(
 			$this->get_parent_slug(),
 			$this->get_page_title(),
 			$this->get_menu_title(),
@@ -136,11 +144,11 @@ abstract class AdminPage {
 
 	public function enqueue_scripts($hook) {
 		// Load only on ?page=slug
-		if($hook != "settings_page_{$this->get_slug()}") {
+		if ($hook != "settings_page_{$this->get_slug()}") {
 			return;
 		}
 		$path = dirname(dirname(__FILE__));
 		$file = $path . '/Assets/gearhead.css';
-		wp_enqueue_style( $this->get_slug() . '-css', $file );
+		wp_enqueue_style($this->get_slug() . '-css', $file);
 	}
 }
