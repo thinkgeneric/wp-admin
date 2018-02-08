@@ -35,14 +35,15 @@ abstract class AdminPage {
 	 * register_setting($option_group, $option_name, $args)
 	 */
 	public function configure() {
-		$this->page_settings->register_setting($this->get_slug(), 'gearhead-option');
+		$this->page_settings->register_setting($this->get_page_name(), $this->get_option_name());
+
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
 
 		$this->page_settings->add_settings_section(
-			$this->get_slug() . '-section',
+			$this->get_page_name() . '-section',
 			'Section Title',
 			[$this, 'render_section'],
-			$this->get_slug()
+			$this->get_page_name()
 		);
 
 		// todo does this need to be a foreach loop?
@@ -55,14 +56,18 @@ abstract class AdminPage {
 			}
 
 			$this->page_settings->add_settings_field(
-				"{$this->get_slug()}-{$field['slug']}",
-				$field['name'],
+				$field['slug'],
+				$field['title'],
 				[$this, $callback],
-				$this->get_slug(),
-				"{$this->get_slug()}-{$field['section']}",
-				["option" => 'gearhead-option']
+				$this->get_page_name(),
+				"{$this->get_page_name()}-{$field['section']}",
+				["option" => $this->get_option_name(), "title" => $field['title'], "slug" => $field['slug'], 'id' => $field['id']]
 			);
 		}
+	}
+
+	public function add_group() {
+
 	}
 
 	/**
@@ -75,21 +80,22 @@ abstract class AdminPage {
 	 *
 	 * @internal param null|string $key The key used to find the field
 	 */
-	public function add_field($name, $slug = null, $section = 'section', $type = 'text') {
+	public function add_field($title, $id, $option = null, $section = 'section', $type = 'text') {
 		// If no name is set, bail
-		if (empty($name)) {
+		if (empty($title)) {
 			return;
 		}
 
-		// If no key is set, format the name to be the key.
-		if ( ! $slug) {
-			$slug = str_replace('', '-', strtolower($name));
+		if (!$option) {
+			$option = $this->option_name();
 		}
 
 		// Add the field to the stack
 		$this->fields[] = [
-			'name'    => $name,
-			'slug'    => $slug,
+			'title'    => $title,
+			'id' => $id,
+			'slug' => "{$option}[{$id}]",
+			'option' => $option,
 			'section' => $section,
 			'type'    => $type,
 		];
@@ -100,6 +106,10 @@ abstract class AdminPage {
 	 */
 	public function render_option_field($args) {
 		$this->render_template('option-field', $args);
+	}
+
+	public function render_option_field_file($args) {
+		$this->render_template('option-file', $args);
 	}
 
 	/**
@@ -150,5 +160,9 @@ abstract class AdminPage {
 		$path = dirname(dirname(__FILE__));
 		$file = $path . '/Assets/gearhead.css';
 		wp_enqueue_style($this->get_slug() . '-css', $file);
+
+		// todo this can be refactored, especially once we move to grunt to compile assets
+		wp_enqueue_media(); //todo these assets probably only need to be enqueued when rendering specific fields
+		wp_enqueue_script($this->get_slug() . 'js', $path . '/Assets/js/admin.js', ['jquery']);
 	}
 }
