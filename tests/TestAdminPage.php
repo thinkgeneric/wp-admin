@@ -11,7 +11,7 @@ class TestAdminPage extends TestCase {
 
 	use VarDumperTestTrait;
 
-	public function test_add_field() {
+	public function testAddField() {
 		// Stub out classes and methods
 		$settings = $this->createMock(PageSettingsInterface::class);
 		$settings->method('register_setting')
@@ -23,8 +23,10 @@ class TestAdminPage extends TestCase {
 		$stub = $this->getMockForAbstractClass('Gearhead\\WPAdmin\\AdminPage', [$settings]);
 
 		// Add field
-		$stub->add_field('The Option', 'the-slug', 'section', 'text');
-		$stub->configure();
+		$stub->add_field('The Option', 'the-slug-1', 'section', 'text');
+		$stub->add_field('The Image', 'the-slug-2', 'section', 'image');
+
+		$stub->page_settings->add_settings_field();
 		// Verify in some way.
 		dump($stub);
 	}

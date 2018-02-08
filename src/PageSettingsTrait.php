@@ -50,6 +50,10 @@ trait PageSettingsTrait {
 		return "gearhead-admin-menu";
 	}
 
+	public function get_page_name() {
+		return $this->get_slug();
+	}
+
 	/**
 	 * Get the slug for the dashicon
 	 * @return string
@@ -64,5 +68,12 @@ trait PageSettingsTrait {
 	 */
 	public function is_parent() {
 		return true;
+	}
+
+	/**
+	 * The option namespace
+	 */
+	public function get_option_name() {
+		return 'gearhead';
 	}
 }
